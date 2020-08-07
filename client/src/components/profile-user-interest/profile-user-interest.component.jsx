@@ -4,9 +4,7 @@ const ProfileUserInterest  = () => {
     return (
         <>
             <h2>More About You</h2>
-            <h4>Interested In:</h4>
-            <p>Woman</p>
-            <h4>Hobby</h4>
+            <h4>Hobby:</h4>
             <p>Playing Football</p>
             <h4>Language Known:</h4>
             <p>English, Japanese</p>

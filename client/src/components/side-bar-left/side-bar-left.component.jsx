@@ -1,26 +1,37 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import {Link} from 'react-router-dom'
+import {logOutCurrentUser} from '../../redux/user/user.action';
 import {SideBarFixedContainer,
         SideBarContainer} from './side-bar-left.styles';
 
-const SideBarLeft = () => {
+const SideBarLeft = ({logOutCurrentUser,currentUser}) => {
+ 
     return (
         <SideBarFixedContainer className="leftfixed">
         {/* start sidebar left */}
         <SideBarContainer className="sidebarleft">
-          <img src="../images/upload.png" alt='user-1' />
-          <p className="sidename">Long Thuoq</p>
-          <p className="ssn">Thang Long University</p>
-          <p className="country">Viet Name</p>
-          <a href = "true" className="viewall">View All</a>
+          <img src={currentUser.photoAvatar} alt='user-1' />
+          <p className="sidename">{`${currentUser.firstName} ${currentUser.lastName}`}</p>
+          {/* <p className="ssn">Hello {`${currentUser.firstName} ${currentUser.lastName}`}</p>
+          <p className="country">Viet Nam</p>
+          <Link to = "/s" className="viewall">View All</Link>
           <hr />
-          <p className="nosociety">31</p>
+          <p className="nosociety">31</p> */}
           <p className="societyname">
-              <a href ="true">Society</a>
+              <Link to ="/d">Society</Link>
             </p>
-          <p className="logout"><a href="../index.html">Log Out</a></p>
+          <p className="logout"><Link as="button" onClick = {() =>logOutCurrentUser()}>Log Out</Link></p>
         </SideBarContainer>
         {/* End of sidebar left */}
       </SideBarFixedContainer>
     )
 }
-export default SideBarLeft;
+const mapStateToProps = ({user: {currentUser}}) => ({
+  currentUser,
+}) 
+
+const mapDispatchToProps = dispatch => ({
+  logOutCurrentUser: () => dispatch(logOutCurrentUser())
+})
+export default connect(mapStateToProps,mapDispatchToProps)(SideBarLeft);

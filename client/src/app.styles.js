@@ -18,5 +18,23 @@ body{
     width: 1100px;
     height: 100%;
 }
+@-webkit-keyframes animatezoom {
+    from {-webkit-transform: scale(0);} 
+    to {-webkit-transform: scale(1);}
+}
+    
+@keyframes animatezoom {
+    from {transform: scale(0);} 
+    to {transform: scale(1);}
+}
+.deanimate
+{
+	animation: animatezoomout 0.6s;
+}
+@keyframes animatezoomout
+{
+	from{transform: scale(1);}
+	to{transform: scale(0);}
+}
 
 `

@@ -1,5 +1,8 @@
 import React from 'react';
 import FormInput from '../form-input/form-input.component';
+import axios from 'axios';
+import {connect} from 'react-redux'; 
+import {setCurrentUSer} from '../../redux/user/user.action';
 import {ReactComponent as Logo } from '../../assets/wattpad.svg';
 import { 
     WrapperContainer,
@@ -19,14 +22,28 @@ class SignIn extends React.Component {
     }
     handleChange = (e) => {
         const {value , name} = e.target;
-
         this.setState({
             [name] : value
         })
     }
     handleSubmit = (e) => {
         e.preventDefault();
+        const {email,password} = this.state;
+        const {setCurrentUSer} = this.props;
         
+        if(!email || !password) {
+            alert("Please provide email or password");
+
+            this.setState({
+                email: " ",
+                password: " ",
+            })
+            return;
+        }
+        axios.post(`http://localhost:2565/login`,this.state)
+        .then(({data: {data:{user}}}) => {
+           setCurrentUSer(user);
+        });
     }
     render(){ 
         return( 
@@ -79,4 +96,9 @@ class SignIn extends React.Component {
         );
     }
 }
-export default SignIn;
+const mapDispatchToProps = dispatch => ({
+    setCurrentUSer : user => dispatch(setCurrentUSer(user))
+
+})
+
+export default connect(null,mapDispatchToProps)(SignIn) ;

@@ -9,10 +9,10 @@ import {FooterContainer} from './footer-user.styles';
           <hr style={{top: '-25px'}} />
           <FooterContainer className="foot">
             <ul>
-              <li><a href>About</a></li>
-              <li><a href>Contact</a></li>
-              <li><a href>Privacy and Policy</a></li>
-              <li><a href>Help</a></li>
+              <li><a href ="true">About</a></li>
+              <li><a href ="true">Contact</a></li>
+              <li><a href ="true">Privacy and Policy</a></li>
+              <li><a href ="true">Help</a></li>
             </ul>
             <Logo />
             <p>Copyright © www.cownut.desgin.co All Rights Reserved.</p>

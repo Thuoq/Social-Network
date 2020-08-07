@@ -1,5 +1,7 @@
 import React from 'react'
 import FormInput from '../form-input/form-input.component';
+import {connect} from 'react-redux';
+import {setCurrentUSer} from '../../redux/user/user.action';
 import axios  from 'axios';
 import {    MainContainer, 
             LogoTopic,
@@ -8,6 +10,7 @@ import {    MainContainer,
             ButtonSignUpContainer 
 } from './sign-up.styles';
 import {WrapperContainer} from '../sign-in/sign-in.styles';
+
 const imgSrc = require('../../assets/social-4.png');
 
 class SignUp extends React.Component { 
@@ -31,13 +34,29 @@ class SignUp extends React.Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
-        const {firstName,lastName,email,password,confirmPassword,sex,birthDay} = this.state;
+        const {password,confirmPassword} = this.state;
+        const {setCurrentUSer} = this.props;
+       
         if(password !== confirmPassword) {
             alert("Password don't match !");
+            this.setState({
+                firstName : " ",
+                lastName : " ",
+                email : " ",
+                password: " ",
+                confirmPassword: " ",
+                sex : " ",
+                birthDay:" "
+            })
+            return;
         }
-        axios.post("http://localhost:2565/login",this.state)
-        .then(res => console.log(res));
-        
+        axios.post("http://localhost:2565/register",this.state)
+        .then(res => {
+            const {user} = res.data.data;
+            setCurrentUSer(user);
+         
+        });
+         
     }
     render() {
         return(
@@ -122,7 +141,8 @@ class SignUp extends React.Component {
                                         <td style={{textAlign: 'right'}}>
                                             <FormInput 
                                                 type="radio" 
-                                                name="sex" 
+                                                name="sex"
+                                                value='male' 
                                                 id="male" 
                                                 required 
                                                 handleChange = {this.handleChange}/>
@@ -133,6 +153,7 @@ class SignUp extends React.Component {
                                                 type="radio" 
                                                 name="sex" 
                                                 id="female" 
+                                                value='female'
                                                 required 
                                                 handleChange = {this.handleChange}/>
                                             <label htmlFor="female" id="fm1">Female</label>
@@ -147,7 +168,7 @@ class SignUp extends React.Component {
                                                 className="dob" 
                                                     type="date" 
                                                     id="birthday" 
-                                                    name="birthday"
+                                                    name="birthDay"
                                                     handleChange = {this.handleChange}/>
                                             
                                         </td>
@@ -167,4 +188,8 @@ class SignUp extends React.Component {
     }
 }
 
-export default SignUp;
+const mapDispatchToProps = dispatch => ({
+    setCurrentUSer : user => dispatch(setCurrentUSer(user))
+})
+
+export default connect(null,mapDispatchToProps)(SignUp) ;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {Switch , Route} from 'react-router-dom';
 import SignInSignUp from './pages/sign-in-sign-up/sign-in-sign-up.component';
 import {GlobalStyle } from './app.styles';
@@ -8,15 +9,9 @@ import FooterUser from './components/footer-user/footer-user.component';
 import ProfileUser from './pages/profile-user/profile-user.component';
 import Header from './components/header/header.component'; 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state =   {
-      currentUser : false
-    }
-  }
   render(){ 
-    const {currentUser} = this.state;
+    const {currentUser} = this.props;
+   
     return (
       <div>
         <GlobalStyle/>
@@ -35,11 +30,14 @@ class App extends React.Component {
             </>
           ) : <Route path="/" exact component ={SignInSignUp}/>
         }
-       
       </div>
     ) 
   }
   
 }
 
-export default App;
+const mapStateToProps =  state => ({
+  currentUser : state.user.currentUser
+})
+
+export default connect(mapStateToProps)(App);

@@ -1,18 +1,17 @@
 import React from 'react'
 
 
-const ProfileUserAddress = () => {
+const ProfileUserAddress = ({currentUser}) => {
     return (
         <>
             <h2>Address</h2>
             <h4>Country:</h4>
-            <p>Viet Nam</p>
+            <p>{currentUser.country}</p>
             <h4>State:</h4>
-            <p>Ha Noi</p>
+            <p>{currentUser.state}</p>
             <h4>District:</h4>
-            <p>Long Bien</p>
-            <h4>ZIP code:</h4>
-            <p>686868</p>
+            <p>{currentUser.distinct}</p>
+         
         </>
     )
 }

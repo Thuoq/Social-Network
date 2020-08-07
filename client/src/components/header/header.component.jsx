@@ -15,9 +15,6 @@ import {WrapperContainerHeader,
     NotificationContainer,
 } from './header.styles';
 
-
-
-
 const Header = () => {
     return (
         <HeaderFixedContainer >
@@ -40,8 +37,7 @@ const Header = () => {
                 <li>
                     <Link to="/">
                         <HomeLogo/>
-                        
-                       
+            
                     </Link>
                 </li>
                 {/* profile */}
