@@ -8,9 +8,29 @@ import {
     CloseIconContainer
 } from '../update-user-detail/update-user-detail';
 class UpdateUserSecond extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state  = {
+            name: "" ,
+            degree : " ",
+            firedStudy: " ",
+            startYear: null,
+            endYear: null
+        }
+    }
+
+    handleChange = e => {
+        const {name , value } = e.target;
+
+        this.setState({
+            [name] : value
+        })
+    }
 
     render() {
-        const {toggleUpdateSchoolSec,updateSchoolSec} = this.props;
+        const {toggleUpdateSchoolSec,updateSchoolSec,currentUser} = this.props;
+        console.log(currentUser);
         return(
         <ModalContainer className=" animate" style = {updateSchoolSec ? {display: 'block'} : {display :'none'}}>
             <EditContainer >
@@ -50,7 +70,8 @@ const mapDispatchToProps = dispatch => ({
     toggleUpdateSchoolSec: () => dispatch(toggleUpdateSchoolSec())
 })
 
-const mapStateToProps = ({user : {hidden : {updateSchoolSec}}}) => ({
+const mapStateToProps = ({user : {hidden : {updateSchoolSec},currentUser}}) => ({
     updateSchoolSec,
+    currentUser,
 })
 export default connect(mapStateToProps,mapDispatchToProps)(UpdateUserSecond) 

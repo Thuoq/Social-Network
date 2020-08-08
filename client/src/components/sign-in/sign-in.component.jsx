@@ -41,7 +41,8 @@ class SignIn extends React.Component {
             return;
         }
         axios.post(`http://localhost:2565/login`,this.state)
-        .then(({data: {data:{user}}}) => {
+        .then(({data: {data:{user},token}}) => {
+           localStorage.setItem("login",JSON.stringify(token))
            setCurrentUSer(user);
         });
     }

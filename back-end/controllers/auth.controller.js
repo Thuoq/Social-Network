@@ -17,8 +17,9 @@ const createSendToken = (user, statusCode, res) => {
         expires: new Date(
           Date.now() + process.env.JWT_COOKIE_IN * 24 * 60 * 60 * 1000
         ),
-        httpOnly: true
+        //httpOnly: true
     };
+    if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
     user.password = undefined;
     res.cookie('jwt', token, cookieOptions);
     res.status(statusCode).json({
@@ -52,17 +53,46 @@ exports.signIn =  catchAsync(async (req,res,next) => {
     createSendToken(user,200,res);
 })
 
+exports.refresh = catchAsync(async (req,res,next) => {
+    const {user} = req;
+
+    res.status(200).json({
+        status: "success",
+        data: {
+            user,
+        }
+    }) 
+})
+
 exports.protect = catchAsync(async (req,res,next) => {
     let token; 
     if  (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-        token  = req.headers.authorization.slipt(' ')[1];
-    }
-    if (!token) {
+        token  = req.headers.authorization.split(' ')[1];
+    } 
+    if (!token) { 
         return next(
             new AppError('Your are not logged in! Please log in to get access. ', 401)
         );
     }
     // Verify token 
-    //promisify(jwt.verify(token))   
+    const decode = await promisify(jwt.verify)(token,process.env.JWT_SECRET)
+    // check user 
+    const currentUser = await User.findById(decode.id);
+    if (!currentUser) {
+        return next(
+            new AppError(
+            'The token belonging to this token does no longer exits',
+            401
+            )
+        );
+    }
+    // Check user changed password after token issued
+    if(currentUser.changedPasswordAfter(decode.iat)) {
+        return next(
+            new AppError('User recently changed password ! please login again')
+        );
+    }
 
+    req.user = currentUser;
+    next();
 })

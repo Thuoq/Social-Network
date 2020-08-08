@@ -11,6 +11,22 @@ import { toggleUpdateAddress } from '../../redux/user/user.action';
 
 
 class UpdateUserAddress extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            country: "",
+            district : "",
+            state : " "
+        }
+    }
+    handleChange = e => {
+        const {name, value } = e.target; 
+
+        this.setState({
+            [name] : value
+        })
+    }
     
     render() {
         const {updateAddress,toggleUpdateAddress} = this.props;
@@ -23,15 +39,30 @@ class UpdateUserAddress extends React.Component {
                     <br />
                     <label htmlFor="country">Country</label>
                     <br />
-                    <FormInput type="text" id="country" placeholder="Enter Country" required />
+                    <FormInput 
+                        type="text" 
+                        id="country" 
+                        name = "country"
+                        placeholder="Enter Country" 
+                        required />
                     <br />
                     <label htmlFor="state">State</label>
                     <br />
-                    <FormInput type="text" id="state" placeholder="Enter State" required />
+                    <FormInput 
+                        type="text" 
+                        name ="state"
+                        id="state" 
+                        placeholder="Enter State" 
+                        required />
                     <br />
                     <label htmlFor="district">District</label>
                     <br />
-                    <FormInput type="text" id="district" placeholder="Enter District" required />
+                    <FormInput 
+                        type="text" 
+                        name ="district"
+                        id="district" 
+                        placeholder="Enter District" 
+                        required />
                     <br />
                     
                     <button type="submit" >Update</button>

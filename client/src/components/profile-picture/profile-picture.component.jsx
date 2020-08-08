@@ -1,10 +1,12 @@
-import React from 'react'
+import React from 'react';
+import {connect} from 'react-redux';
+
 import FormInput from '../form-input/form-input.component';
 import {BubbleContainer,
         SlideShowContainer,
         SingleSlide
 } from './profile-picture.styles';
-const ProfilePicture = () => {
+const ProfilePicture = ({currentUser}) => {
     return (
         <SlideShowContainer >
         {/* change slideshow image */}
@@ -16,7 +18,7 @@ const ProfilePicture = () => {
             </BubbleContainer>
             {/* sildeshow images */}
             <SingleSlide>
-                <img src="../images/society3.jpg" alt="pho5"/>
+                <img src={currentUser.photoProfile} alt="pho5"/>
             </SingleSlide>
             {/* End of slideshow images */}
             {/* prev and next button to change slideshow */}
@@ -24,4 +26,8 @@ const ProfilePicture = () => {
     ) 
 }
 
-export default ProfilePicture;
+const mapStateToProps = ({user: {currentUser}}) => ({
+    currentUser,
+})
+
+export default connect(mapStateToProps)(ProfilePicture) ;

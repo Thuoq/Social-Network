@@ -8,6 +8,23 @@ import {
     CloseIconContainer
 } from './update-user-detail';
 class UpdateUserDetail extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            fistName: " ",
+            lastName : " ",
+            email : " ",
+            birthDay: " ",
+            sex : " ",
+        }
+    }
+
+    handleChange =  (e) => {
+        const {name,value} = e.target;
+        this.setState({[name] : value})
+    } 
+
     render() {
         const {updateDetail,toggleUpdateInformation} = this.props;
         return (
@@ -31,6 +48,7 @@ class UpdateUserDetail extends React.Component {
                 <FromInput 
                     type="text" 
                     id="lastName"
+                    handleChange = {this.handleChange}
                     name="lastName" 
                     placeholder="Enter Last Name" required />
                 <br />
@@ -38,6 +56,7 @@ class UpdateUserDetail extends React.Component {
                 <br />
                 <FromInput 
                     type="email"
+                    handleChange = {this.handleChange}
                     name ="email"
                     id="email" 
                     placeholder="Enter Email-ID" 
@@ -48,6 +67,7 @@ class UpdateUserDetail extends React.Component {
                 <br />
                 <FromInput 
                     type="date"
+                    handleChange = {this.handleChange}
                     name ="birthDay"
                     id="email" 
                     placeholder="Your birth Day" 
@@ -55,13 +75,16 @@ class UpdateUserDetail extends React.Component {
                 <br />
                 <FromInput 
                     type="radio"
+                    handleChange = {this.handleChange}
                     name="sex"
+                    value ="Male"
                     id="male"
                     required />
                 <label htmlFor="male">Male</label>
                 <FromInput 
                     type="radio" 
-            
+                    value = "Female"
+                    handleChange = {this.handleChange}
                     name="sex" id="female"
                     style={{marginBottom: '16px'}} 
                     required />
