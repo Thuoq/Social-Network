@@ -19,7 +19,7 @@ const SideBarLeft = ({logOutCurrentUser,currentUser}) => {
           <hr />
           <p className="nosociety">31</p> */}
           <p className="societyname">
-              <Link to ="/d">Society</Link>
+              <Link as="button">Society</Link>
             </p>
           <p className="logout"><Link as="button" onClick = {() =>logOutCurrentUser()}>Log Out</Link></p>
         </SideBarContainer>

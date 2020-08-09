@@ -49,12 +49,17 @@ const userSchema = new mongoose.Schema({
     distinct: String,
     state : String,
     name: String,
+    sex: {
+        type:String,
+        default : "Female"
+    },
+    birthDay: Date,
     school: [{
         name : {
             type: String,
             default: "Thang Long University"
         },
-        degree: {
+        degree: { 
             type: String,
             default : "Science"
         },
@@ -65,8 +70,8 @@ const userSchema = new mongoose.Schema({
         startYear: {
             type: Number,
             default : 2012
-        },
-        endYear: {
+        }, 
+        endYear: { 
             type: Number, 
             default : 2020
         }

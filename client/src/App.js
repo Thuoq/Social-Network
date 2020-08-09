@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import {setCurrentUSer} from './redux/user/user.action';
-import {Switch , Route} from 'react-router-dom';
+import {setCurrentUSer,logOutCurrentUser} from './redux/user/user.action';
+import {Switch , Route,Redirect} from 'react-router-dom';
 import SignInSignUp from './pages/sign-in-sign-up/sign-in-sign-up.component';
 import {GlobalStyle } from './app.styles';
 import MainContent from './pages/main-content/main-content.component';
@@ -21,15 +21,17 @@ class App extends React.Component {
       headers : {
         'Authorization': token
       }
+     
     }).then(({data:{data: {user}}}) => {
       setCurrentUSer(user);
     }).catch(err  => {
-      setCurrentUSer(null)
+      logOutCurrentUser();
     })
   }
   render(){  
     const {currentUser} = this.props;
     
+   
     return (
       <div>
         <GlobalStyle/>
@@ -39,14 +41,27 @@ class App extends React.Component {
             <Header/>
               <div className="wrapperContainer">
                 <Switch>  
-                    <Route exact path="/profile" component= {ProfileUser} />
+                    <Route exact path="/profile" 
+                     render =  
+                      { () => !currentUser 
+                              ? (<Redirect to="/" />) 
+                              : ( <ProfileUser/>)} />
                     <Route  path="/"  component = {MainContent} />
                 </Switch>
                 <SuggestUser/>
                 <FooterUser/>
               </div>
             </>
-          ) : <Route path="/" exact component ={SignInSignUp}/>
+            
+          ) : <Switch>
+                <Route exact path="/profile" 
+                     render =  
+                      { () => !currentUser 
+                              ? (<Redirect to="/" />) 
+                              : ( <ProfileUser/>)}  />
+                <Route path="/" exact component ={SignInSignUp}/>
+              </Switch>
+          
         }
       </div>
     ) 
@@ -54,7 +69,8 @@ class App extends React.Component {
   
 }
 const mapDispatchToProps = dispatch => ({
-  setCurrentUSer: (user) => dispatch(setCurrentUSer(user))
+  setCurrentUSer: (user) => dispatch(setCurrentUSer(user)),
+  logOutCurrentUser: () => dispatch(logOutCurrentUser())
 })
 
 const mapStateToProps =  state => ({

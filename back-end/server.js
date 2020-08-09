@@ -4,6 +4,7 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const app = express();
 const mongoose = require('mongoose');
+const globalErrorHandler = require('./controllers/error.controller');
 const PORT = process.env.PORT || 2565;
 
 mongoose.connect(process.env.DB,{
@@ -23,6 +24,18 @@ const RouterUser = require("./routers/user.router");
 // parse application/json
 app.use(bodyParser.json()) 
 app.use("/",RouterUser); 
+app.all('*', (req, res, next) => {
+  // res.status(404).json({
+  //   status: 'fail',
+  //   message: `Can't find ${req.originalUrl} on this server!`
+  // });
+  // const err = new Error(`Can't find ${req.originalUrl} on this server!`);
+  // err.status = 'failed';
+  // err.statusCode = 404;
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+});
+
+app.use(globalErrorHandler);
 app.listen(PORT, () => {
     console.log("I am Running at PORT "  + PORT);
 })  

@@ -14,7 +14,7 @@ class UpdateUserSecond extends React.Component {
         this.state  = {
             name: "" ,
             degree : " ",
-            firedStudy: " ",
+            fieldStudy: " ",
             startYear: null,
             endYear: null
         }
@@ -30,7 +30,6 @@ class UpdateUserSecond extends React.Component {
 
     render() {
         const {toggleUpdateSchoolSec,updateSchoolSec,currentUser} = this.props;
-        console.log(currentUser);
         return(
         <ModalContainer className=" animate" style = {updateSchoolSec ? {display: 'block'} : {display :'none'}}>
             <EditContainer >
@@ -40,21 +39,50 @@ class UpdateUserSecond extends React.Component {
                 <br />
                 <label htmlFor="sschool">Secondary School</label>
                 <br />
-                <FormInput type="text" id="sschool" placeholder="Enter Secondary School" required />
+                <FormInput 
+                    type="text" 
+                    name = "name"
+                    id="sschool" 
+                    placeholder="Enter Secondary School" 
+                    required />
                 <br />
                 <label htmlFor="degree2">Degree</label>
                 <br />
-                <FormInput type="text" id="degree2" placeholder="Enter Degree" required />
+                <FormInput 
+                    type="text" 
+                    id="degree2"
+                    placeholder="Enter Degree"
+                    required 
+                    name ="degree"
+                    />
                 <br />
                 <label htmlFor="fstudy2">Field of Study</label>
                 <br />
-                <FormInput type="text" id="fstudy2" placeholder="Enter Field of Study" required />
+                <FormInput 
+                    type="text" 
+                    id="fstudy2"
+                    name ="fieldStudy"
+                    placeholder="Enter Field of Study" 
+                    required />
                 <br />
                 <label htmlFor="syear1">Start Year</label>
                 <label style={{position: 'absolute', left: '50.6%'}} htmlFor="eyear1">End Year</label>
                 <br />
-                <FormInput style={{width: '49%'}} type="number" id="syear1" placeholder="Start Year" min={1970} max={2017} required />	 		
-                <FormInput style={{width: '49%'}} type="number" id="eyear1" placeholder="End Year" min={1970} required />
+                <FormInput 
+                    style={{width: '49%'}} 
+                    type="number" id="syear1" 
+                    placeholder="Start Year" 
+                    name="startYear"
+                    min={1970} max={2017} 
+                    required />	 		
+                <FormInput 
+                    style={{width: '49%'}} 
+                    type="number" 
+                    name="endYear"
+                    id="eyear1" 
+                    placeholder="End Year" 
+                    min={1970} 
+                    required />
                 <br />
                 <button type="submit" >Update</button>
                 <br />

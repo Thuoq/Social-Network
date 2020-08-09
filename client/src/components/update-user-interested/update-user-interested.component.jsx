@@ -1,7 +1,8 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import axios from 'axios'
 import FormInput from '../form-input/form-input.component';
-import {toggleUpdateInterested} from '../../redux/user/user.action';
+import {toggleUpdateInterested,setCurrentUSer} from '../../redux/user/user.action';
 import {
     ModalContainer,
     EditContainer,
@@ -16,32 +17,70 @@ class UpdateUserInterested extends React.Component {
       language : " "
     }
   }
+  componentDidMount() {
+    const {currentUser} = this.state;
+    this.setState({
+      hobby : currentUser.hobby,
+      language: currentUser.language
+    })
+  }
   handleChange = e => {
     const {name,value} = e.target;
     this.setState({[name] : value })
   }
+  handleSubmit = e => {
+    e.preventDefault();
+    const {hobby , language} = this.state;
+    if(!hobby || !language) {
+      alert("Invalid hobby or Languages");
+      return;
+    }
+    const {setCurrentUSer} = this.props;
+    let token  = "Bearer "  + JSON.parse(localStorage.getItem("login"));
+
+    axios(`http://localhost:2565/updateDetail`, {
+      method: "post",
+      headers : {
+        'Authorization': token
+      },
+      data: this.state
+    })
+    .then(({data: {data:{user}}}) => {
+
+        setCurrentUSer(user);
+    });
+  }
 
   render() {
-    const {updateInterested,toggleUpdateInterested} = this.props;
+    const {updateInterested,toggleUpdateInterested,currentUser} = this.props;
+    
+    
     return (
       <ModalContainer className=" animate" style = {updateInterested ? {"display":"block"} : {"display" :'none'}}>
         <EditContainer >
           <CloseIconContainer  onClick = {() =>toggleUpdateInterested()} title="Close Modal" >×</CloseIconContainer>
           <h2 align="center">More About You Edit</h2>
-          <form action="#" >
+          <form action="#" onSubmit = {this.handleSubmit} >
             <br />
             <label htmlFor="hobby">Hobby</label>
             <br />
             <FormInput 
               type="text" 
               id="hobby" 
+              name = "hobby"
               placeholder="Enter Hobby" 
-              
+              defaultValue = {currentUser.hobby}
               required />
             <br />
             <label htmlFor="lknown">Language Known</label>
             <br />
-            <FormInput type="text" id="lknown" placeholder="Enter Language Known" required />
+            <FormInput 
+              type="text"
+              id="lknown"
+              name = "language"
+              defaultValue = {currentUser.language}
+              placeholder="Enter Language Known" 
+              required />
             <br />
             <button type="submit" >Update</button>
             <br />
@@ -57,11 +96,13 @@ class UpdateUserInterested extends React.Component {
 
 
 const mapDispatchToProps = dispatch =>({
-  toggleUpdateInterested: () => dispatch(toggleUpdateInterested())
+  toggleUpdateInterested: () => dispatch(toggleUpdateInterested()),
+  setCurrentUSer : user => dispatch(setCurrentUSer(user))
 })
 
-const mapStateToProps = ({user : {hidden : {updateInterested}}}) => ({
+const mapStateToProps = ({user : {hidden : {updateInterested},currentUser}}) => ({
   updateInterested,
+  currentUser,
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(UpdateUserInterested) ;

@@ -15,7 +15,7 @@ class UpdateUserPri extends React.Component {
     this.state  = {
       name: "" ,
       degree : " ",
-      firedStudy: " ",
+      fieldStudy: " ",
       startYear: null,
       endYear: null
     }
@@ -25,9 +25,12 @@ class UpdateUserPri extends React.Component {
     this.setState({[name] : value })
   }
 
+  handleSubmit = e => {
+    
+  }
 
   render() {
-    const {updateSchoolPri,toggleUpdateSchoolPri} = this.props;
+    const {updateSchoolPri,toggleUpdateSchoolPri,currentUser} = this.props;
      return  (
         <ModalContainer className=" animate" style = {updateSchoolPri ? {display : 'block'} : {display: 'none'}}>
           <EditContainer >
@@ -37,21 +40,47 @@ class UpdateUserPri extends React.Component {
               <br />
               <label htmlFor="pschool">Primary School</label>
               <br />
-              <FormInput type="text" id="pschool" placeholder="Enter Primary School" required />
+              <FormInput 
+                type="text" 
+                id="pschool" 
+                name  = "name"
+                placeholder="Enter Primary School" 
+                required />
               <br />
               <label htmlFor="degree1">Degree</label>
               <br />
-              <FormInput type="text" id="degree1" placeholder="Enter Degree" required />
+              <FormInput 
+                type="text" 
+                id="degree1" 
+                name = "degree"
+                placeholder="Enter Degree" 
+                required />
               <br />
               <label htmlFor="fstudy1">Field of Study</label>
               <br />
-              <FormInput type="text" id="fstudy1" placeholder="Enter Field of Study" required />
+              <FormInput 
+                type="text" 
+                id="fstudy1" 
+                name= "fieldStudy"
+                placeholder="Enter Field of Study" 
+                required />
               <br />
               <label htmlFor="syear1">Start Year</label>
               <label style={{position: 'absolute', left: '50.6%'}} htmlFor="eyear1">End Year</label>
               <br />
-              <FormInput style={{width: '49%'}} type="number" id="syear1" placeholder="Start Year"  required />	 		
-              <FormInput style={{width: '49%'}} type="number" id="eyear1" placeholder="End Year"  required />
+              <FormInput style={{width: '49%'}} 
+                type="number" 
+                name ="startYear"
+                id="syear1" 
+                placeholder="Start Year"  
+                required />	 		
+              <FormInput 
+                style={{width: '49%'}} 
+                type="number"
+                name = "endYear" 
+                id="eyear1"
+                placeholder="End Year" 
+                required />
               <br />
               <button type="submit" >Update</button>
               <br />
@@ -69,7 +98,8 @@ const mapDispatchToProps = dispatch =>({
 })
 
 
-const mapStateToProps = ({user : {hidden : {updateSchoolPri}}}) => ({
+const mapStateToProps = ({user : {hidden : {updateSchoolPri},currentUser}}) => ({
   updateSchoolPri,
+  currentUser,
 })
 export default  connect(mapStateToProps,mapDispatchToProps)(UpdateUserPri);

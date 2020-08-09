@@ -147,6 +147,7 @@ export const TContent = styled.div`
     p {
         font-size: 15px;
         margin: 4px;
+        text-transform: capitalize;
     }
 
 `
