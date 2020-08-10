@@ -18,7 +18,7 @@ class UpdateUserInterested extends React.Component {
     }
   }
   componentDidMount() {
-    const {currentUser} = this.state;
+    const {currentUser} = this.props;
     this.setState({
       hobby : currentUser.hobby,
       language: currentUser.language

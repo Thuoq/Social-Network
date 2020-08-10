@@ -20,11 +20,24 @@ class UpdateUserAddress extends React.Component {
             state : " "
         }
     }
+    componentDidMount() {
+        const {currentUser} = this.props;
+        if(!currentUser.country || !currentUser.district || !currentUser.state) {
+            return;
+        }
+        this.setState({
+            country: currentUser.country,
+            district: currentUser.district,
+            state : currentUser.state
+        })
+        
+    }
     handleChange = e => {
         const {name, value } = e.target; 
         this.setState({
             [name] : value
         })
+        console.log(this.state);
     }
 
     handleSubmit  = e => {
@@ -70,6 +83,7 @@ class UpdateUserAddress extends React.Component {
                         defaultValue = {currentUser.country}
                         id="country" 
                         name = "country"
+                        handleChange = {this.handleChange}
                         placeholder="Enter Country" 
                         required />
                     <br />
@@ -78,6 +92,7 @@ class UpdateUserAddress extends React.Component {
                     <FormInput 
                         type="text" 
                         name ="state"
+                        handleChange = {this.handleChange}
                         id="state" 
                         defaultValue = {currentUser.state}
                         placeholder="Enter State" 
@@ -88,13 +103,14 @@ class UpdateUserAddress extends React.Component {
                     <FormInput 
                         type="text" 
                         name ="district"
+                        handleChange = {this.handleChange}
                         id="district" 
-                        defaultValue = {currentUser.distinct}
+                        defaultValue = {currentUser.district}
                         placeholder="Enter District" 
                         required />
                     <br />
                     
-                    <button type="submit" >Update</button>
+                    <button onClick = {() => toggleUpdateAddress()} type="submit" >Update</button>
                     <br />
                     <button type="button" onClick = {() => toggleUpdateAddress()}  className="cancelbtn" >Cancel</button>
                     <br />

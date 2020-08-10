@@ -10,8 +10,7 @@ const ProfileUserAddress = ({currentUser}) => {
             <h4>State:</h4>
             <p>{currentUser.state}</p>
             <h4>District:</h4>
-            <p>{currentUser.distinct}</p>
-         
+            <p>{currentUser.district}</p>
         </>
     )
 }

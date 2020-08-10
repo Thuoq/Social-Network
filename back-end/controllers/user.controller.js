@@ -11,7 +11,7 @@ exports.updateUserDetail = catchAsync(async (req,res,next) => {
     if(!informationCurrentUser) {
         return next(new AppError("Invalid user please try login Again",400))
     }
-    console.log(informationCurrentUser)
+    
     informationCurrentUser._id = undefined;
     res.status(200).json({
         status: "success",
@@ -20,3 +20,32 @@ exports.updateUserDetail = catchAsync(async (req,res,next) => {
         }
     })
 })
+
+exports.updateUserSchool = catchAsync(async (req, res, next) => {
+    let informationCurrentUser
+    
+    if(req.headers.uP ==='pri')   {
+        informationCurrentUser = await User.findByIdAndUpdate(req.user._id,{
+            "$set" : {"school.0": req.body},
+        },{
+            new:true,
+            runValidators:true
+        })
+        
+    }else {
+        informationCurrentUser = await User.findByIdAndUpdate(req.user._id,{
+            "$set" : {"school.1": req.body},
+        },{
+            new:true,
+            runValidators:true
+        }) 
+    }
+    informationCurrentUser._id = undefined;
+    console.log(informationCurrentUser)
+    res.status(200).json({
+        status: "success",
+        data : {
+            user: informationCurrentUser
+        }
+    })
+}) 

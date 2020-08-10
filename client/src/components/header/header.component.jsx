@@ -15,9 +15,22 @@ import {WrapperContainerHeader,
     NotificationContainer,
 } from './header.styles';
 
-const Header = () => {
+class Header extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      query: ""
+    }
+  }
+  handleChange = e => {
+      const {name,value} = e.target;
+      this.setState({
+        [name] : value
+      })
+  }
+  render(){
     return (
-        <HeaderFixedContainer >
+      <HeaderFixedContainer >
        
         <HeaderContainer >
        
@@ -28,7 +41,10 @@ const Header = () => {
             </Link>
             {/* Search bar */}
             <FormContainer >
-              <FormInput type="text" name="search" placeholder="Search.."  />
+            
+                <FormInput type="text" name="query" placeholder="Search.."/>
+                <Link  to={`/society?query=${this.state.query}`}/>
+
             </FormContainer>
             {/* icon bar to navigate to all pages */}
             <IconBarContainer >
@@ -39,7 +55,7 @@ const Header = () => {
                         <HomeLogo/>
             
                     </Link>
-                </li>
+                </li> 
                 {/* profile */}
                 <li>
                     <Link to="/profile">
@@ -77,6 +93,7 @@ const Header = () => {
        
       </HeaderFixedContainer>
     )
+  }
 }
 
 export default Header;

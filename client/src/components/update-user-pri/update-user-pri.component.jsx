@@ -1,7 +1,9 @@
 import React from 'react'
+import axios from 'axios';
 import FormInput from '../form-input/form-input.component';
+
 import {connect} from 'react-redux';
-import {toggleUpdateSchoolPri} from '../../redux/user/user.action';
+import {toggleUpdateSchoolPri,setCurrentUSer} from '../../redux/user/user.action';
 import {
     ModalContainer,
     EditContainer,
@@ -20,13 +22,52 @@ class UpdateUserPri extends React.Component {
       endYear: null
     }
   }
+  componentDidMount() {
+    const {currentUser} = this.props;
+    if(!currentUser.school[0]) {
+      return;
+    }
+    this.setState({
+      name : currentUser.school[0].name,
+      degree: currentUser.school[0].degree,
+      fieldStudy : currentUser.school[0].startYear,
+      endYear : currentUser.school[0].endYear
+    }) 
+    
+
+  }
   handleChange = e => {
     const {name,value} = e.target;
     this.setState({[name] : value })
   }
 
   handleSubmit = e => {
-    
+    e.preventDefault();
+    const {name,fieldStudy,degree,startYear,endYear} = this.state;
+    if(!name || !fieldStudy || !degree || !startYear || !endYear) {
+      alert("In valid name or field Study or degree or startYear or endYear");
+
+      this.setState({
+        name: "" ,
+        degree : " ",
+        fieldStudy: " ",
+        startYear: null,
+        endYear: null
+      })
+      return;
+    }
+
+    let token  = "Bearer "  + JSON.parse(localStorage.getItem("login"));
+    axios(`http://localhost:2565/updateSchool`, {
+      method: "post",
+      headers : {
+        'Authorization': token,
+        'uP' : 'pri'
+      },
+      data: this.state
+    }).then(({data: {data:{user}}}) => {
+      setCurrentUSer(user);
+    });
   }
 
   render() {
@@ -36,13 +77,15 @@ class UpdateUserPri extends React.Component {
           <EditContainer >
             <CloseIconContainer onClick = {() =>toggleUpdateSchoolPri()}  title="Close Modal">×</CloseIconContainer>
             <h2 align="center">Primary School Edit</h2>
-            <form action="#" >
+            <form action="#" onSubmit = {this.handleSubmit} >
               <br />
               <label htmlFor="pschool">Primary School</label>
               <br />
               <FormInput 
                 type="text" 
                 id="pschool" 
+                defaultValue = {currentUser.school[0] ? currentUser.school[0].name : " "}
+                handleChange = {this.handleChange}
                 name  = "name"
                 placeholder="Enter Primary School" 
                 required />
@@ -52,6 +95,8 @@ class UpdateUserPri extends React.Component {
               <FormInput 
                 type="text" 
                 id="degree1" 
+                defaultValue = {currentUser.school[0] ? currentUser.school[0].degree :  " "}
+                handleChange = {this.handleChange}
                 name = "degree"
                 placeholder="Enter Degree" 
                 required />
@@ -60,6 +105,8 @@ class UpdateUserPri extends React.Component {
               <br />
               <FormInput 
                 type="text" 
+                defaultValue = {currentUser.school[0] ? currentUser.school[0].fieldStudy : " "}
+                handleChange = {this.handleChange}
                 id="fstudy1" 
                 name= "fieldStudy"
                 placeholder="Enter Field of Study" 
@@ -71,7 +118,9 @@ class UpdateUserPri extends React.Component {
               <FormInput style={{width: '49%'}} 
                 type="number" 
                 name ="startYear"
+                defaultValue = {currentUser.school[0] ?  currentUser.school[0].startYear : " "}
                 id="syear1" 
+                handleChange = {this.handleChange}
                 placeholder="Start Year"  
                 required />	 		
               <FormInput 
@@ -79,10 +128,12 @@ class UpdateUserPri extends React.Component {
                 type="number"
                 name = "endYear" 
                 id="eyear1"
+                defaultValue = {currentUser.school[0] ?  currentUser.school[0].endYear : " "}
                 placeholder="End Year" 
+                handleChange = {this.handleChange}
                 required />
               <br />
-              <button type="submit" >Update</button>
+              <button onClick = {() => toggleUpdateSchoolPri() } type="submit" >Update</button>
               <br />
               <button onClick = {() =>toggleUpdateSchoolPri()} type="button" className="cancelbtn" >Cancel</button>
               <br />
@@ -94,9 +145,10 @@ class UpdateUserPri extends React.Component {
 }
 
 const mapDispatchToProps = dispatch =>({
-  toggleUpdateSchoolPri: () => dispatch(toggleUpdateSchoolPri())
+  toggleUpdateSchoolPri: () => dispatch(toggleUpdateSchoolPri()),
+  setCurrentUSer : user => dispatch(setCurrentUSer(user))
 })
-
+ 
 
 const mapStateToProps = ({user : {hidden : {updateSchoolPri},currentUser}}) => ({
   updateSchoolPri,

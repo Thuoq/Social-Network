@@ -12,4 +12,6 @@ router.post("/register",AuthController.register);
 
 router.post("/updateDetail",AuthController.protect,UserController.updateUserDetail);
 
+router.post("/updateSchool",AuthController.protect,UserController.updateUserSchool)
+
 module.exports  = router;  

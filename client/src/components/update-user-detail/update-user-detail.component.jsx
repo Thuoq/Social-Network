@@ -58,10 +58,9 @@ class UpdateUserDetail extends React.Component {
             headers : {
                 'Authorization': token
                 },
-            data: this.state
+            data: this.state 
         })  
         .then(({data: {data:{user}}}) => {
-            debugger;
             setCurrentUSer(user);
         });
     }
