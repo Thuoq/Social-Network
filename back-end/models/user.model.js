@@ -45,7 +45,7 @@ const userSchema = new mongoose.Schema({
         }
     },
     country: String,
-    postCode : Number,
+
     district: String,
     state : String,
     name: String,
@@ -88,6 +88,8 @@ const userSchema = new mongoose.Schema({
     passwordChangedAt: Date,
 })
  
+
+
 userSchema.pre('save',async function (next) {
      // ONLY run this function if password was actually modified
     if (!this.isModified('password')) return next();
@@ -112,6 +114,8 @@ userSchema.methods.correctPassword = async function (candidatePassword,userPassw
     return await bcrypt.compare(candidatePassword,userPassword)
 }
 
-const User = mongoose.model("Users",userSchema,"user");
 
-module.exports = User;
+
+const User = mongoose.model("Users",userSchema,'users');
+
+module.exports = User;  

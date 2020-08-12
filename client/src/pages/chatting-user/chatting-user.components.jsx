@@ -5,8 +5,8 @@ import SidebarChat from '../../components/sidebar-chat/sidebar-chat.component';
 
 const ChattingUser = () => (
     <ChattingWrapperContainer>
-        <SidebarChat/>
-        <ChattingMain/>
+        <SidebarChat />
+        <ChattingMain />
     </ChattingWrapperContainer>
 )
 

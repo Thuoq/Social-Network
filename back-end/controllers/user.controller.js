@@ -49,3 +49,25 @@ exports.updateUserSchool = catchAsync(async (req, res, next) => {
         }
     })
 }) 
+
+exports.getAllUser  = catchAsync(async ( req , res , next) => {
+    const optionsFind = {
+        sex: 0,
+        hobby: 0,
+        language: 0,
+        _id: 0,
+        birthDay: 0,
+        photoProfile: 0,
+        email: 0,
+        school:0
+    }
+    const users = await User.find({},optionsFind);
+
+    res.status(200).json({
+        status: 'success',
+        results: users.length,
+        data: {
+          users
+        }
+      });
+})

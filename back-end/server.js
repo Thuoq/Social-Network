@@ -1,8 +1,9 @@
 require('dotenv').config();
 const cors = require('cors');
-const express = require("express");
+const app = require("express")();
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
 const bodyParser = require('body-parser');
-const app = express();
 const mongoose = require('mongoose');
 const globalErrorHandler = require('./controllers/error.controller');
 const PORT = process.env.PORT || 2565;
@@ -14,6 +15,9 @@ mongoose.connect(process.env.DB,{
 }).then(() => {
   console.log("Database connected successfully")
 });
+io.on('connection' , (socket) => {
+  console.log(' A user connections ');
+})
 app.use(cors())
 app.options('*', cors())
 

@@ -33,6 +33,7 @@ export const SideBarContainer = styled.div`
         font-weight: bold;
         padding-left: 10px;
         padding-right: 10px;
+        text-transform: capitalize;
     }
     p{
         text-align: center;

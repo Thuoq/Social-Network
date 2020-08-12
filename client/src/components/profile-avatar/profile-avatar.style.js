@@ -41,7 +41,7 @@ export const SideBarLeftProfile = styled.div`
         font-weight: bold;
         padding-left: 10px;
         padding-right: 10px;
-        
+        text-transform: capitalize;
         a{
             color: black;
             transition : all 0.4s ease;

@@ -58,26 +58,6 @@ export const ContactContainer = styled.div`
     overflow: auto;
 	height: 440px;
     width: 99%;
-    & .contactuser {
-        width: 100%;
-        padding: 4px 2px 4px 2px;
-        overflow: hidden;
-        margin-bottom: 10px;
-        box-sizing: border-box;
-        cursor: pointer;
-        img {
-            display: inline;
-            width: 35px;
-            height: 35px;
-            float: left;
-            border-radius: 50%; 
-            p {
-                display: inline;
-                position: relative;
-                top: 10px;
-                left: 15px;
-                font-size: 15px;
-            }
-        }
-    }
+    
+    
 `

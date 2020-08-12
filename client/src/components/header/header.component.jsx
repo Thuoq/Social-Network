@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link , withRouter} from 'react-router-dom';
 import FormInput from '../form-input/form-input.component';
 import {ReactComponent as Logo} from '../../assets/wattpad.svg';
 import {ReactComponent as UserLogo} from '../../assets/001-user.svg';
@@ -24,9 +24,15 @@ class Header extends React.Component {
   }
   handleChange = e => {
       const {name,value} = e.target;
+
       this.setState({
         [name] : value
       })
+  }
+  handleSubmit = e => {
+    e.preventDefault();
+    const {match, history } = this.props;
+    history.push(`${match.url}society/?query=${this.state.query}`)
   }
   render(){
     return (
@@ -40,11 +46,12 @@ class Header extends React.Component {
                 <Logo  width={120} height={45}  />
             </Link>
             {/* Search bar */}
-            <FormContainer >
-            
-                <FormInput type="text" name="query" placeholder="Search.."/>
-                <Link  to={`/society?query=${this.state.query}`}/>
-
+            <FormContainer  onSubmit ={this.handleSubmit}>
+                <FormInput 
+                  type="text" 
+                  name="query" 
+                  handleChange = {this.handleChange} 
+                  placeholder="Search.."/>
             </FormContainer>
             {/* icon bar to navigate to all pages */}
             <IconBarContainer >
@@ -96,4 +103,4 @@ class Header extends React.Component {
   }
 }
 
-export default Header;
+export default withRouter(Header);

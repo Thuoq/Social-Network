@@ -32,7 +32,8 @@ export const UserNameContainer = styled.p`
 	padding-left: 8px;
 	font-size: 16px;
 	position: relative;
-	top: 4px;
+    top: 4px;
+    text-transform: capitalize;
 	font-weight: bold;
 `
 
