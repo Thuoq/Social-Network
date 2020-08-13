@@ -5,7 +5,7 @@ import {
     ChattingUserContainer,
     SendMessageContainer,
     ChatMessageContainer,
-
+ 
 } from './chatting-main.styles';
 import {sendMessage} from '../../redux/chatting/chatting.action';
 class ChattingMain extends React.Component {
@@ -15,7 +15,37 @@ class ChattingMain extends React.Component {
         this.state = {
             filedChat : "",
         }
-    }
+    } 
+
+    componentDidMount() {
+        const {socketClient,currentUser} = this.props;
+
+        const userSocket = Object.assign({},currentUser);
+        userSocket.name =`${userSocket.firstName} ${userSocket.lastName}`
+        userSocket.sex = undefined;
+        userSocket.photoAvatar = undefined;
+        userSocket.language = undefined;
+        userSocket.firstName = undefined;
+        userSocket.lastName = undefined;
+        userSocket.email = undefined;
+        userSocket.birthDay = undefined;
+        userSocket.photoProfile = undefined;
+        userSocket.hobby = undefined;
+        userSocket.school = undefined;
+        socketClient.emit("USER__CONNECTED",userSocket);
+
+
+        socketClient.on("SEND_MESSAGE_USER_RECEIVED",message => {
+			const node = document.createElement('div');
+        const paragraph = document.createElement('p');
+        const divNode = document.getElementById('box-message');
+        const textMessage  = document.createTextNode(message);
+        node.className = "received";
+        paragraph.appendChild(textMessage);
+        node.appendChild(paragraph)
+        divNode.insertBefore(node,divNode.childNodes[0]);
+		})
+    }  
 
     handleChange = e => {
         this.setState({
@@ -23,10 +53,25 @@ class ChattingMain extends React.Component {
         })
     }
     handleSendMessage = () => {
-        const {sendMessage} = this.props;
+        const {socketClient,currentUser,userChat} = this.props;
         const {filedChat} = this.state;
-        sendMessage(filedChat);
-        this.setState({filedChat : ""})
+        const node = document.createElement('div');
+        const paragraph = document.createElement('p');
+        const divNode = document.getElementById('box-message');
+        const textMessage  = document.createTextNode(filedChat);
+        node.className = "send";
+        paragraph.appendChild(textMessage);
+        node.appendChild(paragraph)
+        divNode.insertBefore(node,divNode.childNodes[0]);
+
+        const newMessage = Object.assign({} , {
+            textMessage : filedChat,
+            idSend: currentUser._id,
+            idReceive: userChat._id,
+            createAt  : new Date()
+        })
+        this.setState({filedChat : ""});
+        socketClient.emit("USER_SEND_MESSAGE",newMessage)
     }
 
 
@@ -41,12 +86,12 @@ class ChattingMain extends React.Component {
                         <p >{`${userChat.firstName } ${userChat.lastName}`}</p> </>) : <span></span>
                     }
                 {/* heading chat user name and pic */}
-                
+                 
                 </ChattingUserContainer>
                 {/* End of chat user heading */}
                 {/* chat msg start */}
-                <ChatMessageContainer >
-                    <div className="received">
+                <ChatMessageContainer  id="box-message">
+                    {/* <div className="received">
                         <p>Hello</p>
                     </div>
                     <div className="send">
@@ -54,7 +99,7 @@ class ChattingMain extends React.Component {
                     </div>
                     <div className="received">
                         <p>How are you?</p>
-                    </div>
+                    </div> */}
                 </ChatMessageContainer>
                 {/* End of chat msg */}
                 {/* to send msg box and button */}
@@ -69,8 +114,10 @@ class ChattingMain extends React.Component {
 }
 
 
-const mapStateToProps = ({chat : {userChat}}) => ({
+const mapStateToProps = ({chat : {userChat},socket: {socketClient},user:{currentUser}}) => ({
     userChat, 
+    socketClient,
+    currentUser
 })
 
 const mapDispatchToProps = dispatch  => ({

@@ -20,6 +20,7 @@ class SignIn extends React.Component {
             password : ""
         }
     }
+    
     handleChange = (e) => {
         const {value , name} = e.target;
         this.setState({
@@ -29,7 +30,7 @@ class SignIn extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
         const {email,password} = this.state;
-        const {setCurrentUSer} = this.props;
+        const {setCurrentUSer,socketClient} = this.props;
         
         if(!email || !password) {
             alert("Please provide email or password");
@@ -44,6 +45,8 @@ class SignIn extends React.Component {
         .then(({data: {data:{user},token}}) => {
            localStorage.setItem("login",JSON.stringify(token))
            setCurrentUSer(user);
+           socketClient.emit("USER_CONNECTION",user.email)
+
         });
     }
     render(){ 
@@ -102,4 +105,8 @@ const mapDispatchToProps = dispatch => ({
 
 })
 
-export default connect(null,mapDispatchToProps)(SignIn) ;
+const mapStateToProps = ({socket : {socketClient}}) => ({
+    socketClient,
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(SignIn) ;

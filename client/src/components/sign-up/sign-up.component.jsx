@@ -11,6 +11,7 @@ import {    MainContainer,
 } from './sign-up.styles';
 import {WrapperContainer} from '../sign-in/sign-in.styles';
 
+
 const imgSrc = require('../../assets/social-4.png');
 
 class SignUp extends React.Component { 
@@ -35,7 +36,7 @@ class SignUp extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
         const {password,confirmPassword} = this.state;
-        const {setCurrentUSer} = this.props;
+        const {setCurrentUSer,socketClient} = this.props;
        
         if(password !== confirmPassword) {
             alert("Password don't match !");
@@ -54,8 +55,10 @@ class SignUp extends React.Component {
         .then(res => {
             const {user} = res.data.data;
             setCurrentUSer(user);
+            
+            socketClient.emit("USER_CONNECTION",user);
          
-        });
+        });  
          
     }
     render() {
@@ -192,4 +195,8 @@ const mapDispatchToProps = dispatch => ({
     setCurrentUSer : user => dispatch(setCurrentUSer(user))
 })
 
-export default connect(null,mapDispatchToProps)(SignUp) ;
+const mapStateToProps = ({socket : {socketClient}} ) => ({
+    socketClient,
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(SignUp) ;

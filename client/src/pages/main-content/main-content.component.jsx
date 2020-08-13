@@ -1,6 +1,5 @@
 import React from 'react';
 import {Route, Switch} from 'react-router-dom';
-
 import HomeNews from '../home-news/home-news.components';
 
 import ChattingUser  from '../chatting-user/chatting-user.components';

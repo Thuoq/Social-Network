@@ -2,10 +2,11 @@ require('dotenv').config();
 const cors = require('cors');
 const app = require("express")();
 const http = require('http').createServer(app);
-const io = require('socket.io')(http);
+const io  = module.exports.io =  require('socket.io')(http)
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const globalErrorHandler = require('./controllers/error.controller');
+const socketManager = require('./socket/Socket.manager');
 const PORT = process.env.PORT || 2565;
 
 mongoose.connect(process.env.DB,{
@@ -15,9 +16,7 @@ mongoose.connect(process.env.DB,{
 }).then(() => {
   console.log("Database connected successfully")
 });
-io.on('connection' , (socket) => {
-  console.log(' A user connections ');
-})
+
 app.use(cors())
 app.options('*', cors())
 
@@ -40,6 +39,8 @@ app.all('*', (req, res, next) => {
 });
 
 app.use(globalErrorHandler);
-app.listen(PORT, () => {
+io.on("connection" , socketManager)
+http.listen(PORT, () => {
     console.log("I am Running at PORT "  + PORT);
 })  
+ 

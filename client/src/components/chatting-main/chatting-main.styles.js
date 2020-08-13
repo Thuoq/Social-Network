@@ -33,6 +33,7 @@ export const ChattingUserContainer = styled.div`
             margin-left: 12px;
             color: white;
             font-family: verdana;
+            text-transform : capitalize;
         }
 `
 
@@ -77,7 +78,7 @@ export const ChatMessageContainer = styled.div`
     box-shadow: 0px 4px 8px #79CFA2;
     overflow: auto;
     .received, .send {
-        display: none;
+        
         overflow: hidden;
         position: relative;
     }

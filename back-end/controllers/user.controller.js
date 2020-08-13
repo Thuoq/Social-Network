@@ -11,8 +11,6 @@ exports.updateUserDetail = catchAsync(async (req,res,next) => {
     if(!informationCurrentUser) {
         return next(new AppError("Invalid user please try login Again",400))
     }
-    
-    informationCurrentUser._id = undefined;
     res.status(200).json({
         status: "success",
         data : {
@@ -55,13 +53,12 @@ exports.getAllUser  = catchAsync(async ( req , res , next) => {
         sex: 0,
         hobby: 0,
         language: 0,
-        _id: 0,
         birthDay: 0,
         photoProfile: 0,
         email: 0,
         school:0
     }
-    const users = await User.find({},optionsFind);
+    const users = await User.find({email:{$ne: req.user.email}},optionsFind);
 
     res.status(200).json({
         status: 'success',
