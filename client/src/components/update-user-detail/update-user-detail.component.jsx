@@ -9,6 +9,8 @@ import {
     EditContainer,
     CloseIconContainer
 } from './update-user-detail';
+import { selectUpdateDetail, selectCurrentUser } from '../../redux/user/user.selector';
+import { createStructuredSelector } from 'reselect';
 class UpdateUserDetail extends React.Component {
     constructor(props) {
         super(props);
@@ -153,9 +155,9 @@ const mapDispatchToProps = dispatch => ({
     setCurrentUSer : (user) => dispatch(setCurrentUSer(user))
 })
 
-const mapStateToProps = ({user : {hidden : {updateDetail},currentUser}}) => ({
-    updateDetail,
-    currentUser,
+const mapStateToProps = createStructuredSelector({
+    updateDetail : selectUpdateDetail,
+    currentUser: selectCurrentUser
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(UpdateUserDetail) ;

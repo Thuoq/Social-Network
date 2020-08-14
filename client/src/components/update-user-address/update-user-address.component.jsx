@@ -8,6 +8,8 @@ import {
     CloseIconContainer
 } from '../update-user-detail/update-user-detail';
 import { toggleUpdateAddress,setCurrentUSer } from '../../redux/user/user.action';
+import { selectUpdateAddress, selectCurrentUser } from '../../redux/user/user.selector';
+import { createStructuredSelector } from 'reselect';
 
 
 class UpdateUserAddress extends React.Component {
@@ -121,9 +123,10 @@ class UpdateUserAddress extends React.Component {
     }
 }
 
-const mapStateToProps = ({user : {hidden : {updateAddress}, currentUser}}) => ({
-    updateAddress,
-    currentUser
+
+const mapStateToProps = createStructuredSelector({
+    updateAddress: selectUpdateAddress,
+    currentUser : selectCurrentUser
 })
 const mapDispatchToProps = dispatch => ({
     toggleUpdateAddress :   () => dispatch(toggleUpdateAddress()),

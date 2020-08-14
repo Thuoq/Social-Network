@@ -1,11 +1,13 @@
 import React from 'react';
 import {connect} from 'react-redux';
-
+import { createStructuredSelector } from 'reselect';
+import { selectCurrentUser } from '../../redux/user/user.selector';
 import FormInput from '../form-input/form-input.component';
 import {BubbleContainer,
         SlideShowContainer,
         SingleSlide
 } from './profile-picture.styles';
+
 const ProfilePicture = ({currentUser}) => {
     return (
         <SlideShowContainer >
@@ -26,8 +28,7 @@ const ProfilePicture = ({currentUser}) => {
     ) 
 }
 
-const mapStateToProps = ({user: {currentUser}}) => ({
-    currentUser,
+const mapStateToProps = createStructuredSelector ({
+    currentUser : selectCurrentUser
 })
-
 export default connect(mapStateToProps)(ProfilePicture) ;

@@ -16,6 +16,8 @@ import ProfileUserDetail from '../profile-user-detail/profile-user-detail.compon
 import ProfileUserPri from '../profile-user-pri/profile-user-pri.component';
 import ProfileUserInterest from '../profile-user-interest/profile-user-interest.component';
 import ProfileUserSecond from '../profile-user-second/profile-user-second.component';
+import { selectCurrentUser } from '../../redux/user/user.selector';
+import { createStructuredSelector } from 'reselect';
 
 const ProfileTimeLine = ({currentUser,toggleUpdateInformation,toggleUpdateAddress,toggleUpdateInterested,toggleUpdateSchoolPri,toggleUpdateSchoolSec}) => {
     return (
@@ -75,8 +77,9 @@ const mapDispatchToProps = dispatch => ({
     toggleUpdateSchoolSec : () => dispatch(toggleUpdateSchoolSec()),
     toggleUpdateInterested: () => dispatch(toggleUpdateInterested())
 })
-
-const mapStateToProps = ({user : {currentUser}}) => ({
-    currentUser,
+const mapStateToProps = createStructuredSelector({
+    currentUser : selectCurrentUser
 })
+
+
 export default connect(mapStateToProps,mapDispatchToProps)(ProfileTimeLine) ;

@@ -1,6 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {createSelectorCreator} from 'reselect';
 import FormInput from '../form-input/form-input.component';
+import {selectCurrentUser} from '../../redux/user/user.selector';
+
 import {
     PostNewContainer,
     UserImageContainer,
@@ -37,7 +40,7 @@ const PostNew = ({currentUser}) => {
     )
 }
 
-const mapStateToProps = ({user: {currentUser}}) => ({
-    currentUser
+const mapStateToProps =createSelectorCreator({
+    currentUser : selectCurrentUser
 })
 export default connect(mapStateToProps)(PostNew) ;

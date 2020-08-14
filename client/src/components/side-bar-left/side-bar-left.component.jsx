@@ -4,6 +4,8 @@ import {Link} from 'react-router-dom'
 import {logOutCurrentUser} from '../../redux/user/user.action';
 import {SideBarFixedContainer,
         SideBarContainer} from './side-bar-left.styles';
+import { createStructuredSelector } from 'reselect';
+import { selectCurrentUser } from '../../redux/user/user.selector';
 
 const SideBarLeft = ({logOutCurrentUser,currentUser}) => {
  
@@ -27,9 +29,11 @@ const SideBarLeft = ({logOutCurrentUser,currentUser}) => {
       </SideBarFixedContainer>
     )
 }
-const mapStateToProps = ({user: {currentUser}}) => ({
-  currentUser,
-}) 
+
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser
+})
+ 
 
 const mapDispatchToProps = dispatch => ({
   logOutCurrentUser: () => dispatch(logOutCurrentUser())

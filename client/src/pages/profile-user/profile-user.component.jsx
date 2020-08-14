@@ -9,6 +9,8 @@ import UpdateUserInterested from '../../components/update-user-interested/update
 import UpdateUserAddress from '../../components/update-user-address/update-user-address.component';
 import UpdateUserSecond from '../../components/update-user-second/update-user-second.component';
 import UpdateUserPri from '../../components/update-user-pri/update-user-pri.component';
+import { createStructuredSelector } from 'reselect';
+import { selectCurrentUser } from '../../redux/user/user.selector';
 const ProfileUser = ({currentUser}) => {
     return (
         <LeftFixedContainer>
@@ -24,7 +26,7 @@ const ProfileUser = ({currentUser}) => {
     )                                                                                                                                                                                                                                                                                                                                             
 }  
 
-const mapStateToProps = ({user: {currentUser}}) => ({
-    currentUser,
+const mapStateToProps = createStructuredSelector({
+    currentUser: selectCurrentUser
 })
 export default connect(mapStateToProps)(ProfileUser)  ;

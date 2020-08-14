@@ -7,6 +7,15 @@ const INITIAL_STATE = {
 
 const chattingReducer = (state = INITIAL_STATE, action) => {
     switch(action.type) {
+        case CHATTING_ACTIONS_TYPES.AXIOS_MESSAGE_CHAT_START: 
+            return {
+                ...state
+            }
+        case CHATTING_ACTIONS_TYPES.AXIOS_MESSAGE_CHAT_SUCCESS:
+            return {
+                ...state,
+                storeChatUser: [...state.storeChatUser, action.payload]
+            }
         case CHATTING_ACTIONS_TYPES.CHOOSE_USER_CHAT :
             return {
                 ...state,

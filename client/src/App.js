@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import {createStructuredSelector} from 'reselect';
 import axios from 'axios';
+import {selectCurrentUser} from './redux/user/user.selector';
 import {setCurrentUSer,logOutCurrentUser} from './redux/user/user.action';
 import {Switch , Route,Redirect} from 'react-router-dom';
 import SignInSignUp from './pages/sign-in-sign-up/sign-in-sign-up.component';
@@ -73,8 +75,8 @@ const mapDispatchToProps = dispatch => ({
   logOutCurrentUser: () => dispatch(logOutCurrentUser())
 })
 
-const mapStateToProps =  state => ({
-  currentUser : state.user.currentUser
+const mapStateToProps =  createStructuredSelector({
+  currentUser : selectCurrentUser
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(App);

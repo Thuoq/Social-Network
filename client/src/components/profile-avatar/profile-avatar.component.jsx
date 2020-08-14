@@ -1,5 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {createStructuredSelector} from 'reselect';
+import {selectCurrentUser} from '../../redux/user/user.selector';
 import {Link} from 'react-router-dom';
 import {logOutCurrentUser} from '../../redux/user/user.action';
 import FormInput from '../form-input/form-input.component';
@@ -23,10 +25,9 @@ const ProfileAvatar = ({currentUser,logOutCurrentUser}) => {
     )
 }
 
-const mapStateToProps = ({user :{currentUser}}) => ({
-    currentUser,
+const mapStateToProps = createStructuredSelector({
+    currentUser : selectCurrentUser
 })
-
 const mapDispatchToProps = dispatch => ({
     logOutCurrentUser  : () => dispatch(logOutCurrentUser())
 })

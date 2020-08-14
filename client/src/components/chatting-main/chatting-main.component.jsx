@@ -1,5 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {createStructuredSelector} from 'reselect';
+import {selectSocketClient} from '../../redux/socket/socket.selector';
+import {selectCurrentUser} from '../../redux/user/user.selector';
+import {selectUserChat} from '../../redux/chatting/chatting.selector';
 import {
     ChattingMainContainer, 
     ChattingUserContainer,
@@ -19,7 +23,9 @@ class ChattingMain extends React.Component {
 
     componentDidMount() {
         const {socketClient,currentUser} = this.props;
+        
 
+        // LISTEN USER 
         const userSocket = Object.assign({},currentUser);
         userSocket.name =`${userSocket.firstName} ${userSocket.lastName}`
         userSocket.sex = undefined;
@@ -36,7 +42,7 @@ class ChattingMain extends React.Component {
 
 
         socketClient.on("SEND_MESSAGE_USER_RECEIVED",message => {
-			const node = document.createElement('div');
+		const node = document.createElement('div');
         const paragraph = document.createElement('p');
         const divNode = document.getElementById('box-message');
         const textMessage  = document.createTextNode(message);
@@ -44,8 +50,12 @@ class ChattingMain extends React.Component {
         paragraph.appendChild(textMessage);
         node.appendChild(paragraph)
         divNode.insertBefore(node,divNode.childNodes[0]);
-		})
-    }  
+        })
+        
+
+        // 
+        
+     }  
 
     handleChange = e => {
         this.setState({
@@ -73,6 +83,10 @@ class ChattingMain extends React.Component {
         this.setState({filedChat : ""});
         socketClient.emit("USER_SEND_MESSAGE",newMessage)
     }
+
+    
+    
+    
 
 
     render() {
@@ -112,13 +126,13 @@ class ChattingMain extends React.Component {
         )
     }
 }
-
-
-const mapStateToProps = ({chat : {userChat},socket: {socketClient},user:{currentUser}}) => ({
-    userChat, 
-    socketClient,
-    currentUser
+ //selectSocketClient selectCurrentUser
+const mapStateToProps = createStructuredSelector({
+    userChat : selectUserChat,
+    socketClient: selectSocketClient,
+    currentUser: selectCurrentUser
 })
+
 
 const mapDispatchToProps = dispatch  => ({
     sendMessage : message => dispatch(sendMessage(message))

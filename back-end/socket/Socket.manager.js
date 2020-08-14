@@ -17,7 +17,7 @@ module.exports = (socket) => {
                 socketId = userConnected[i].socketId;
                 break;
             }
-        } 
+        }
         io.to(`${socketId}`).emit("SEND_MESSAGE_USER_RECEIVED",data.textMessage);
         await Chat.create(data);
         

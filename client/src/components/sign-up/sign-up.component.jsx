@@ -10,6 +10,8 @@ import {    MainContainer,
             ButtonSignUpContainer 
 } from './sign-up.styles';
 import {WrapperContainer} from '../sign-in/sign-in.styles';
+import { createStructuredSelector } from 'reselect';
+import { selectSocketClient } from '../../redux/socket/socket.selector';
 
 
 const imgSrc = require('../../assets/social-4.png');
@@ -194,9 +196,8 @@ class SignUp extends React.Component {
 const mapDispatchToProps = dispatch => ({
     setCurrentUSer : user => dispatch(setCurrentUSer(user))
 })
-
-const mapStateToProps = ({socket : {socketClient}} ) => ({
-    socketClient,
+const mapStateToProps = createStructuredSelector({
+    socketClient : selectSocketClient
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(SignUp) ;

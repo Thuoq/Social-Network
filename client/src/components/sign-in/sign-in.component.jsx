@@ -11,6 +11,8 @@ import {
     TableContainer,
     ButtonLogin
 } from './sign-in.styles';
+import { createStructuredSelector } from 'reselect';
+import { selectSocketClient } from '../../redux/socket/socket.selector';
 class SignIn extends React.Component {
     constructor(props) { 
         super(props);
@@ -104,9 +106,9 @@ const mapDispatchToProps = dispatch => ({
     setCurrentUSer : user => dispatch(setCurrentUSer(user))
 
 })
-
-const mapStateToProps = ({socket : {socketClient}}) => ({
-    socketClient,
+const mapStateToProps = createStructuredSelector({
+    socketClient : selectSocketClient
 })
+
 
 export default connect(mapStateToProps,mapDispatchToProps)(SignIn) ;
